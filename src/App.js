@@ -1,33 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
+import TrackList from './TrackList';
+import PlayList from './PlayList';
 import './App.css';
 
 
 function App() {
   const [searchInput, setSearchInput] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
   const [tracks, setTracks] = useState([
     { id: 1, name: 'Song 1', artist: 'Artist 1', album: 'Album 1' },
     { id: 2, name: 'Song 2', artist: 'Artist 2', album: 'Album 2' },
     { id: 3, name: 'Song 3', artist: 'Artist 3', album: 'Album 3' }
   ]);
-  
-  const filterTracks = (input) => {
-    return tracks.filter(track =>
-      track.name.toLowerCase().includes(input.toLowerCase())
-    );
+  const [playListName, setPlayListName] = useState('My Playlist');
+  const [playListTracks, setPlayListTracks] = useState([]);
+
+  const addTrackToPlayList = (track) => {
+    if(!playListTracks.some(t => t.id === track.id)) {
+      setPlayListTracks([...playListTracks, track]);
+    }
   };
 
-  const handleSearchInput = (input) => {
-    setSearchInput(input);
-    setSearchResults(filterTracks(input));
-  }
+  const removeTrackFromPlayList = (trackToRemove) => {
+    const updatedPlayListTracks = playListTracks.filter(track => track.id !== trackToRemove.id);
+    setPlayListTracks(updatedPlayListTracks);
+  };
 
   return (
     <div className="App">
-      <SearchBar setSearchInput={handleSearchInput}/>
-      <SearchResults tracks={searchResults} searchInput={searchInput}/>
+      <SearchBar setSearchInput={setSearchInput} />
+      <SearchResults tracks={tracks} searchInput={searchInput} onAddTrack={addTrackToPlayList} />
+      <TrackList tracks={tracks} onAddTrack={addTrackToPlayList} />
+      <PlayList playListName={playListName} playListTracks={playListTracks} onRemoveTrack={removeTrackFromPlayList} />
     </div>
   );
 }
