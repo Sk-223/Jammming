@@ -5,18 +5,16 @@ import Track from "./Track";
 function TrackList({ tracks, onAddTrack, isRemoval, onRemoveTrack }) {
     return (
         <div>
-            <ul>
                 {tracks.map((track => (
-                    <li key={track.id}>
+                    <div key={track.id}>
                         <Track 
                             track={track} 
                             onAddTrack={onAddTrack}
                             isRemoval={isRemoval}
                             onRemoveTrack={onRemoveTrack}
                         />
-                    </li>
+                    </div>
                 )))}
-            </ul>
         </div>
     );
 }

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
-import TrackList from './TrackList';
 import PlayList from './PlayList';
 import './App.css';
 
@@ -15,6 +14,10 @@ function App() {
   ]);
   const [playListName, setPlayListName] = useState('My Playlist');
   const [playListTracks, setPlayListTracks] = useState([]);
+  
+  const savePlayListName = (newName) => {
+    setPlayListName(newName);
+  };
 
   const addTrackToPlayList = (track) => {
     if(!playListTracks.some(t => t.id === track.id)) {
@@ -31,8 +34,7 @@ function App() {
     <div className="App">
       <SearchBar setSearchInput={setSearchInput} />
       <SearchResults tracks={tracks} searchInput={searchInput} onAddTrack={addTrackToPlayList} />
-      <TrackList tracks={tracks} onAddTrack={addTrackToPlayList} />
-      <PlayList playListName={playListName} playListTracks={playListTracks} onRemoveTrack={removeTrackFromPlayList} />
+      <PlayList playListName={playListName} playListTracks={playListTracks} onSavePlayListName={savePlayListName} onRemoveTrack={removeTrackFromPlayList} />
     </div>
   );
 }
