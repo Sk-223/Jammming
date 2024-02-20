@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import PlayList from './PlayList';
@@ -8,14 +8,14 @@ import './App.css';
 
 function App() {
   const [searchInput, setSearchInput] = useState('');
-  const [tracks, setTracks] = useState([
-    { id: 1, name: 'Song 1', artist: 'Artist 1', album: 'Album 1', uri: 'spotify:track:1A2B3C4D5E6F' },
-    { id: 2, name: 'Song 2', artist: 'Artist 2', album: 'Album 2', uri: 'spotify:track:1A2B3C4D5E6G' },
-    { id: 3, name: 'Song 3', artist: 'Artist 3', album: 'Album 3', uri: 'spotify:track:1A2B3C4D5E6H' }
-  ]);
+  const [tracks, setTracks] = useState([]);
   const [playListName, setPlayListName] = useState('My Playlist');
   const [playListTracks, setPlayListTracks] = useState([]);
   
+useEffect(() => {
+  Spotify.getAccessToken();
+}, []);
+
   const savePlayListName = (newName) => {
     setPlayListName(newName);
   };
@@ -34,25 +34,29 @@ function App() {
   };
 
   const savePlaylistToSpotify = () => {
-    if(Spotify.isAccessTokenValid()) {
-      savePlaylistToSpotify();
-    } else {
-      Spotify.initiateAuthFlow();
-    };
-    // Gather playlist data
-    const playlistData = {
-      name: playListName,
-      tracks: playListTracks.map(track => track.uri)
-    };
-    console.log('Saving playlist to Spotify:', playlistData);
-    // Reset playlist
-    setPlayListName('My Playlist');
-    setPlayListTracks([]);
+    Spotify.savePlaylist(playListName, playListTracks)
+      .then(() => {
+        // Reset playlist
+      setPlayListName('My Playlist');
+      setPlayListTracks([]);
+      })
+      .catch(error => {
+        console.log('Error saving playlist:', error);
+      });
+  };
+  
+  const updateTracks = (searchedTracks) => {
+    setTracks(searchedTracks);
+  };
+
+  const search = (query) => {
+    setSearchInput(query);
+    Spotify.search(query, updateTracks);
   };
 
   return (
     <div className="App">
-      <SearchBar setSearchInput={setSearchInput} />
+      <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} onSearch={search} />
       <SearchResults tracks={tracks} searchInput={searchInput} onAddTrack={addTrackToPlayList} />
       <PlayList playListName={playListName} playListTracks={playListTracks} onSavePlayListName={savePlayListName} onRemoveTrack={removeTrackFromPlayList} onSavePlaylistToSpotify={savePlaylistToSpotify} />
     </div>

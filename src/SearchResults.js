@@ -4,14 +4,16 @@ import TrackList from "./TrackList";
 // Component that filters the tracks based on user search input and renders the results
 function SearchResults({ tracks, searchInput, onAddTrack }) {
     const filteredTracks = tracks.filter(track =>
-        track.name.toLowerCase().replace(/\s/g, '').includes(searchInput.toLowerCase().replace(/\s/g, '')) ||
-        track.artist.toLowerCase().replace(/\s/g, '').includes(searchInput.toLowerCase().replace(/\s/g, '')) ||
-        track.album.toLowerCase().replace(/\s/g, '').includes(searchInput.toLowerCase().replace(/\s/g, ''))
+        track.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        track.artist.toLowerCase().includes(searchInput.toLowerCase()) ||
+        track.album.toLowerCase().includes(searchInput.toLowerCase())
     );
 
     return (
         <div>
-            <TrackList tracks={filteredTracks} onAddTrack={onAddTrack} />
+            {searchInput && filteredTracks.length > 0 ? (
+                <TrackList tracks={filteredTracks} onAddTrack={onAddTrack} />
+            ) : null}
         </div>
     );
 }
