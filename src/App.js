@@ -32,11 +32,23 @@ function App() {
     setPlayListTracks(updatedPlayListTracks);
   };
 
+  const savePlaylistToSpotify = () => {
+    // Gather playlist data
+    const playlistData = {
+      name: playListName,
+      tracks: playListTracks.map(track => track.uri)
+    };
+    console.log('Saving playlist to Spotify:', playlistData);
+    // Reset playlist
+    setPlayListName('My Playlist');
+    setPlayListTracks([]);
+  };
+
   return (
     <div className="App">
       <SearchBar setSearchInput={setSearchInput} />
       <SearchResults tracks={tracks} searchInput={searchInput} onAddTrack={addTrackToPlayList} />
-      <PlayList playListName={playListName} playListTracks={playListTracks} onSavePlayListName={savePlayListName} onRemoveTrack={removeTrackFromPlayList} />
+      <PlayList playListName={playListName} playListTracks={playListTracks} onSavePlayListName={savePlayListName} onRemoveTrack={removeTrackFromPlayList} onSavePlaylistToSpotify={savePlaylistToSpotify} />
     </div>
   );
 }
