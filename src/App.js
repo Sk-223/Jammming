@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import PlayList from './PlayList';
+import Spotify from './Spotify';
 import './App.css';
 
 
@@ -33,6 +34,11 @@ function App() {
   };
 
   const savePlaylistToSpotify = () => {
+    if(Spotify.isAccessTokenValid()) {
+      savePlaylistToSpotify();
+    } else {
+      Spotify.initiateAuthFlow();
+    };
     // Gather playlist data
     const playlistData = {
       name: playListName,

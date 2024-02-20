@@ -43,6 +43,7 @@ function PlayList({ playListName, playListTracks, onSavePlayListName, onRemoveTr
             {isEditing ? (
                 <div> 
                     <input
+                        name="playListName"
                         type="text"
                         value={newName}
                         onChange={handleNameChange}
