@@ -56,6 +56,7 @@ useEffect(() => {
 
   return (
     <div className="App">
+      <h1>Jammming</h1>
       <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} onSearch={search} />
       <SearchResults tracks={tracks} searchInput={searchInput} onAddTrack={addTrackToPlayList} />
       <PlayList playListName={playListName} playListTracks={playListTracks} onSavePlayListName={savePlayListName} onRemoveTrack={removeTrackFromPlayList} onSavePlaylistToSpotify={savePlaylistToSpotify} />
