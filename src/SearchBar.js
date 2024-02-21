@@ -3,14 +3,10 @@ import React from "react";
 // Component responsible for rendering search bar and handling user input
 function SearchBar({ searchInput, setSearchInput, onSearch }) {
     
-    const handleInputChange = ({ target }) => {
-        setSearchInput(target.value)
-    };
-
-    const handleKeyDown = (event) => {
-        if(event.key === "Enter") {
-            onSearch(searchInput);
-        }
+    const handleInputChange = (event) => {
+        const inputValue = event.target.value;
+        setSearchInput(inputValue);
+        onSearch(inputValue);
     };
 
     return (
@@ -20,7 +16,6 @@ function SearchBar({ searchInput, setSearchInput, onSearch }) {
                 type='text'
                 placeholder="Search..."
                 value={searchInput}
-                onKeyDown={handleKeyDown}
                 onChange={handleInputChange} 
             />
         </div>
