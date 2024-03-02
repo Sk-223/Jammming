@@ -1,6 +1,5 @@
 import React from "react";
 import TrackList from "./TrackList";
-import Button from "./Button";
 
 // Function to remove diacritics (accents) from a string
 const removeDiacritics = (str) => {
