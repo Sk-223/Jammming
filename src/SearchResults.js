@@ -1,5 +1,6 @@
 import React from "react";
 import TrackList from "./TrackList";
+import Button from "./Button";
 
 // Function to remove diacritics (accents) from a string
 const removeDiacritics = (str) => {
@@ -7,7 +8,7 @@ const removeDiacritics = (str) => {
   };  
 
 // Component that filters the tracks based on user search input and renders the results
-function SearchResults({ tracks, searchInput, onAddTrack }) {
+function SearchResults({ tracks, searchInput, onAddTrack, onSearchButtonClick }) {
     const trackMatchesSearch = (track) => {
         const normalizedSearchInput = removeDiacritics(searchInput.toLowerCase());
         const normalizedTrackName = removeDiacritics(track.name.toLowerCase());
@@ -26,8 +27,8 @@ function SearchResults({ tracks, searchInput, onAddTrack }) {
 
     return (
         <div>
-            {searchInput && filteredTracks.length > 0 ? (
-                <TrackList tracks={filteredTracks} onAddTrack={onAddTrack} />
+          {searchInput && filteredTracks.length > 0 ? (
+              <TrackList tracks={filteredTracks} onAddTrack={onAddTrack} />
             ) : null}
         </div>
     );

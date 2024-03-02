@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TrackList from "./TrackList";
+import Button from "./Button";
 
 function PlayList({ playListName, playListTracks, onSavePlayListName, onRemoveTrack, onSavePlaylistToSpotify }) {
     const [isEditing, setIsEditing] = useState(false);
@@ -57,7 +58,7 @@ function PlayList({ playListName, playListTracks, onSavePlayListName, onRemoveTr
             ) : (
                 <div>
                     <h2 onClick={handleClick}>{newName}</h2>
-                    <button onClick={handleSavePlayList}>Save {newName} to Spotify</button>
+                    <Button onClick={handleSavePlayList}>Save {newName} to Spotify</Button>
                 </div>
             )}
             <TrackList 

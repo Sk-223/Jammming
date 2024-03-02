@@ -12,9 +12,9 @@ function App() {
   const [playListName, setPlayListName] = useState('My Playlist');
   const [playListTracks, setPlayListTracks] = useState([]);
   
-useEffect(() => {
-  Spotify.getAccessToken();
-}, []);
+  useEffect(() => {
+    Spotify.getAccessToken();
+  }, []);
 
   const savePlayListName = (newName) => {
     setPlayListName(newName);
@@ -54,11 +54,15 @@ useEffect(() => {
     Spotify.search(query, updateTracks);
   };
 
+  const handleSearchButtonClick = () => {
+    search(searchInput);
+  };
+
   return (
     <div className="App">
       <h1>Jammming</h1>
       <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} onSearch={search} />
-      <SearchResults tracks={tracks} searchInput={searchInput} onAddTrack={addTrackToPlayList} />
+      <SearchResults tracks={tracks} searchInput={searchInput} onAddTrack={addTrackToPlayList} onSearchButtonClick={handleSearchButtonClick} />
       <PlayList playListName={playListName} playListTracks={playListTracks} onSavePlayListName={savePlayListName} onRemoveTrack={removeTrackFromPlayList} onSavePlaylistToSpotify={savePlaylistToSpotify} />
     </div>
   );

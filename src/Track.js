@@ -1,11 +1,12 @@
 import React from "react";
+import Button from "./Button";
 
 // Component that renders a single track item
 function Track ({ track, onAddTrack, isRemoval, onRemoveTrack }) {
     const actionButton = isRemoval ? (
-        <button onClick={() => onRemoveTrack(track)} alt="Remove from Playlist" >-</button>
+        <Button onClick={() => onRemoveTrack(track)} alt="Remove from Playlist" >-</Button>
     ) : (
-        <button onClick={() => onAddTrack(track)} alt="Add to Playlist" >+</button>
+        <Button onClick={() => onAddTrack(track)} alt="Add to Playlist" >+</Button>
     );
 
     return (
