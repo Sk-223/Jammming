@@ -7,16 +7,16 @@ const removeDiacritics = (str) => {
   };  
 
 // Component that filters the tracks based on user search input and renders the results
-function SearchResults({ tracks, searchInput, onAddTrack, onSearchButtonClick }) {
+function SearchResults({ tracks, searchInput, onAddTrack }) {
     const trackMatchesSearch = (track) => {
         const normalizedSearchInput = removeDiacritics(searchInput.toLowerCase());
         const normalizedTrackName = removeDiacritics(track.name.toLowerCase());
-        const normalizedArtistName = removeDiacritics(track.artist.toLowerCase());
-        const normalizedAlbumName = removeDiacritics(track.album.toLowerCase());
+        const normalizedArtistNames = track.artists.map(artist => removeDiacritics(artist.name.toLowerCase()));
+        const normalizedAlbumName = removeDiacritics(track.album.name.toLowerCase());
     
         return (
           normalizedTrackName.includes(normalizedSearchInput) ||
-          normalizedArtistName.includes(normalizedSearchInput) ||
+          normalizedArtistNames.some(artist => artist.includes(normalizedSearchInput)) ||
           normalizedAlbumName.includes(normalizedSearchInput)
         );
       };

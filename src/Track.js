@@ -12,8 +12,8 @@ function Track ({ track, onAddTrack, isRemoval, onRemoveTrack }) {
     return (
         <div>
             <h3>{track.name}</h3>
-            <p>{track.artist}</p>
-            <p>{track.album}</p>
+            <p>{track.artists.map(artist => artist.name).join(', ')}</p>            
+            <p>{track.album.name}</p>
             {actionButton}
         </div>
     );

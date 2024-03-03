@@ -37,7 +37,7 @@ function PlayList({ playListName, playListTracks, onSavePlayListName, onRemoveTr
     // Event handler for saving the playlist to spotify
     const handleSavePlayList = () => {
         onSavePlaylistToSpotify();
-    };
+      };    
 
         return (
         <div>

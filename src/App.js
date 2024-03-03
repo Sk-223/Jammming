@@ -11,10 +11,6 @@ function App() {
   const [tracks, setTracks] = useState([]);
   const [playListName, setPlayListName] = useState('My Playlist');
   const [playListTracks, setPlayListTracks] = useState([]);
-  
-  useEffect(() => {
-    Spotify.getAccessToken();
-  }, []);
 
   const savePlayListName = (newName) => {
     setPlayListName(newName);
@@ -34,36 +30,57 @@ function App() {
   };
 
   const savePlaylistToSpotify = () => {
-    Spotify.savePlaylist(playListName, playListTracks)
+    const accessToken = Spotify.getAccessToken();
+    Spotify.savePlaylistToSpotify({ name: playListName }, playListTracks.map(track => track.uri), accessToken)
       .then(() => {
-        // Reset playlist
-      setPlayListName('My Playlist');
-      setPlayListTracks([]);
+        setPlayListName('My Playlist');
+        setPlayListTracks([]);
       })
       .catch(error => {
         console.log('Error saving playlist:', error);
       });
   };
-  
-  const updateTracks = (searchedTracks) => {
-    setTracks(searchedTracks);
-  };
 
-  const search = (query) => {
-    setSearchInput(query);
-    Spotify.search(query, updateTracks);
-  };
-
-  const handleSearchButtonClick = () => {
-    search(searchInput);
+  const handleSearch = async (query) => {
+    try {
+      const accessToken = Spotify.getAccessToken();
+      const response = await fetch(`https://api.spotify.com/v1/search?type=track&q=${query}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setTracks(data.tracks.items);
+      } else {
+        throw new Error('Failed to search for tracks');
+      }
+    } catch (error) {
+      console.error('Error searching for tracks:', error);
+    }
   };
 
   return (
     <div className="App">
       <h1>Jammming</h1>
-      <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} onSearch={search} />
-      <SearchResults tracks={tracks} searchInput={searchInput} onAddTrack={addTrackToPlayList} onSearchButtonClick={handleSearchButtonClick} />
-      <PlayList playListName={playListName} playListTracks={playListTracks} onSavePlayListName={savePlayListName} onRemoveTrack={removeTrackFromPlayList} onSavePlaylistToSpotify={savePlaylistToSpotify} />
+      <SearchBar 
+        searchInput={searchInput} 
+        setSearchInput={setSearchInput} 
+        onSearch={handleSearch} 
+      />
+      <SearchResults 
+        tracks={tracks} 
+        searchInput={searchInput} 
+        onAddTrack={addTrackToPlayList} 
+      />
+      <PlayList 
+        playListName={playListName} 
+        playListTracks={playListTracks} 
+        onSavePlayListName={savePlayListName} 
+        onRemoveTrack={removeTrackFromPlayList}
+        onSavePlaylistToSpotify={savePlaylistToSpotify} 
+      />
     </div>
   );
 }
