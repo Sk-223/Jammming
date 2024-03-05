@@ -1,4 +1,4 @@
-const clientId = "ba4ae047babc4024b945e50733e56c47";
+const clientId = "#";
 const redirectUri = "http://localhost:3000/callback/";
 
 const Spotify = {
