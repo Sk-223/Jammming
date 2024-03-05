@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "./Button";
+import styles from "../styles/SearchBar.module.css";
 
 // Component responsible for rendering search bar and handling user input
 function SearchBar({ searchInput, setSearchInput, onSearch }) {
@@ -21,6 +22,7 @@ function SearchBar({ searchInput, setSearchInput, onSearch }) {
     return (
         <div>
             <input
+                className={styles["search-bar"]}
                 name="searchBar"
                 type='text'
                 placeholder="Search..."

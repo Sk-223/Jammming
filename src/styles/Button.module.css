@@ -1,0 +1,12 @@
+.button {
+    background-color: deeppink;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 5px;
+    color: whitesmoke;
+
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
